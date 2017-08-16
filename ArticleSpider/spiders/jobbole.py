@@ -9,8 +9,10 @@ class JobboleSpider(scrapy.Spider):
 
     def parse(self, response):
         title = response.xpath('//*[@id="post-112170"]/div[1]/h1/text()').extract()[0]
+        # title = response.css('.entry-hearder h1::text').extract()[0]
         create_time=response.xpath("//p[@class='entry-meta-hide-on-mobile']/text()").extract()[0].strip().replace("·","").strip()
         praise_number=response.xpath("//span[contains(@class,'vote-post-up')]/h10/text()").extract()[0]
+        praise_number=response.css('.vote-post-up h10:text')
         fav_number=response.xpath("//span[contains(@class,'bookmark-btn')]/text()").extract()
         match_re=re.match(".*(\d).*",fav_number)
         if match_re:
